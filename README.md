@@ -26,6 +26,14 @@ npm run dev
 
 เปิด http://localhost:5173 — login เริ่มต้น: `admin` / `admin123`
 
+## Production (Live)
+
+| บริการ | URL |
+|--------|-----|
+| **เว็บแอป** | https://smart-hospital-pharmacy-web.vercel.app |
+| **GitHub** | https://github.com/krutheecoding-alt/smart-hospital-pharmacy-web |
+| **GAS Backend** | https://script.google.com/macros/s/AKfycbz57JzU4hFe4-UgdVEY7twBvBP2M_modD11i_MQ-PbG9i-yWiNOCKijsCmhoo3Yox19jQ/exec |
+
 ## Deploy บน Vercel
 
 1. Push โฟลเดอร์ `web/` ไปยัง GitHub repository
