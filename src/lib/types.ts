@@ -31,4 +31,5 @@ export interface Branding {
   theme_accent: string;
   logo_url?: string;
   has_logo?: boolean;
+  presets?: Record<string, { theme_primary: string; theme_secondary: string; theme_accent: string }>;
 }

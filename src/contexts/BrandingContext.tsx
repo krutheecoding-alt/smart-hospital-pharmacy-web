@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { fetchBranding } from '../lib/api';
 import type { Branding } from '../lib/types';
 
@@ -11,9 +11,13 @@ const defaultBranding: Branding = {
 
 interface BrandingContextValue {
   branding: Branding;
+  refreshBranding: () => Promise<void>;
 }
 
-const BrandingContext = createContext<BrandingContextValue>({ branding: defaultBranding });
+const BrandingContext = createContext<BrandingContextValue>({
+  branding: defaultBranding,
+  refreshBranding: async () => {}
+});
 
 function applyBranding(b: Branding) {
   const root = document.documentElement;
@@ -25,18 +29,21 @@ function applyBranding(b: Branding) {
 export function BrandingProvider({ children }: { children: ReactNode }) {
   const [branding, setBranding] = useState<Branding>(defaultBranding);
 
-  useEffect(() => {
-    fetchBranding().then((r) => {
-      if (r.success && r.branding) {
-        const b = r.branding as Branding;
-        setBranding(b);
-        applyBranding(b);
-      }
-    });
+  const refreshBranding = useCallback(async () => {
+    const r = await fetchBranding();
+    if (r.success && r.branding) {
+      const b = r.branding as Branding;
+      setBranding(b);
+      applyBranding(b);
+    }
   }, []);
 
+  useEffect(() => {
+    refreshBranding();
+  }, [refreshBranding]);
+
   return (
-    <BrandingContext.Provider value={{ branding }}>
+    <BrandingContext.Provider value={{ branding, refreshBranding }}>
       {children}
     </BrandingContext.Provider>
   );
